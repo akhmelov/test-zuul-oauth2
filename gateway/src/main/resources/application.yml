@@ -1,0 +1,38 @@
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+
+# HTTP Server
+server:
+  port: 8083   # HTTP (Tomcat) port
+
+spring:
+  application:
+     name: gateway
+
+info:
+    component: Zuul Server test
+
+zuul:
+  ignoredServices: '*'
+  routes:
+    hello-web-service-hello-word:
+      path: /hello-web/**
+      serviceId: hello-web
+      stripPrefix: false
+      sensitiveHeaders:
+    uaa-service:
+      sensitiveHeaders:
+      path: /uaa/**
+      serviceId: uaa
+      stripPrefix: false
+
+#http://stackoverflow.com/questions/28904247/zuul-timing-out-in-long-ish-requests
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false

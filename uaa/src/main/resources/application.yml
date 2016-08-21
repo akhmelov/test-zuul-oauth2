@@ -1,0 +1,19 @@
+spring:
+  application:
+     name: uaa
+
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    homePageUrlPath: ${server.contextPath}/
+    statusPageUrlPath: ${server.contextPath}/info
+    healthCheckUrlPath: ${server.contextPath}/health
+
+# HTTP Server
+server:
+  port: 8087   # HTTP (Tomcat) port
+  contextPath: /uaa
+  use-forward-headers: true
