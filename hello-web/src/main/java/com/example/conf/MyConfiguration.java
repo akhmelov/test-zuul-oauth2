@@ -47,6 +47,8 @@ public class MyConfiguration {
 
                     final MessageBytes serverNameMB = request.getCoyoteRequest().serverName();
                     Enumeration<String> headerNames = request.getHeaderNames();
+                    logger.debug(headerNames);
+                    
                     String originalServerName = null;
                     final String forwardedHost = request.getHeader("x-forwarded-host");
                     if (forwardedHost != null) {
