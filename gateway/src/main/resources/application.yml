@@ -10,7 +10,7 @@ server:
 
 spring:
   application:
-     name: gateway
+     name: gateway-def
 
 info:
     component: Zuul Server test
@@ -20,13 +20,21 @@ zuul:
   routes:
     hello-web-service-hello-word:
       path: /hello-web/**
-      serviceId: hello-web
+      url: http://localhost:8080
+#      serviceId: hello-web
       stripPrefix: false
       sensitiveHeaders:
     uaa-service:
       sensitiveHeaders:
       path: /uaa/**
+#      url: http://localhost:8087
       serviceId: uaa
+      stripPrefix: false
+    hello-word:
+      sensitiveHeaders:
+      path: /hello-word/**
+      url: http://localhost:8081
+#      serviceId: uaa
       stripPrefix: false
 
 #http://stackoverflow.com/questions/28904247/zuul-timing-out-in-long-ish-requests

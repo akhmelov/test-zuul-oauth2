@@ -16,4 +16,3 @@ eureka:
 server:
   port: 8087   # HTTP (Tomcat) port
   contextPath: /uaa
-  use-forward-headers: true

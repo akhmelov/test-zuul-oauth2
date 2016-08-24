@@ -4,6 +4,11 @@ spring:
   thymeleaf:
     mode: LEGACYHTML5
 
+# HTTP Server
+server:
+  port: 8080   # HTTP (Tomcat) port
+  contextPath: /hello-web
+
 # Discovery Server Access
 eureka:
   client:
@@ -14,18 +19,13 @@ eureka:
     statusPageUrlPath: ${server.contextPath}/info
     healthCheckUrlPath: ${server.contextPath}/health
 
-# HTTP Server
-server:
-  port: 8080   # HTTP (Tomcat) port
-  contextPath: /hello-web
-  use-forward-headers: true
-
 security:
   oauth2:
     client:
       clientId: acme
       clientSecret: acmesecret
-      accessTokenUri: http://localhost:8083/uaa/oauth/token
-      userAuthorizationUri: http://localhost:8083/uaa/oauth/authorize
+      accessTokenUri: http://pk:8083/uaa/oauth/token
+      userAuthorizationUri: http://pk:8083/uaa/oauth/authorize
     resource:
-      userInfoUri: http://localhost:8083/uaa/me
+      userInfoUri: http://pk:8083/uaa/me
+
