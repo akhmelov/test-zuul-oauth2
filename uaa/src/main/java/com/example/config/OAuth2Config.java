@@ -28,6 +28,6 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
                 .withClient("acme")
                 .secret("acmesecret")
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
-                .scopes("tests1", "tests2").authorities("test1", "test2");
+                .scopes("tests1", "tests2").authorities("test1_1", "test2_1");
     }
 }

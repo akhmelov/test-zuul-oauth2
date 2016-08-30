@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,10 +14,19 @@ import java.util.Map;
  */
 @RestController
 public class IndexController {
+
+//    @PreAuthorize("#oauth2.hasScope('ui')")
     @RequestMapping({"/user", "/me"})
-    public Map<String, String> user(Principal principal) {
+    public Map<String, String> user(Authentication authentication) {
         Map<String, String> map = new LinkedHashMap<>();
-        map.put("name", principal.getName());
+        map.put("name", authentication.getName());
+        map.put("role", "test3");
+
         return map;
+    }
+
+    @RequestMapping("/test")
+    public String test(){
+        return "test_test_5";
     }
 }

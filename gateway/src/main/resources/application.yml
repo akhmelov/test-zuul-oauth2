@@ -27,8 +27,8 @@ zuul:
     uaa-service:
       sensitiveHeaders:
       path: /uaa/**
-#      url: http://localhost:8087
-      serviceId: uaa
+      url: http://localhost:8087
+#      serviceId: uaa
       stripPrefix: false
     hello-word:
       sensitiveHeaders:

@@ -6,16 +6,22 @@ import org.apache.catalina.connector.Response;
 import org.apache.catalina.valves.ValveBase;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.util.buf.MessageBytes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.oauth2.client.OAuth2ClientContext;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +35,18 @@ import java.util.Enumeration;
 public class MyConfiguration {
 
     Logger logger = Logger.getLogger(MyConfiguration.class);
+
+    @Bean
+    @ConfigurationProperties("spring.oauth2.client")
+    public ClientCredentialsResourceDetails oauth2ClientCredentialsResourceDetails() {
+        ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
+        return details;
+    }
+
+    @Bean
+    public OAuth2RestTemplate getRestTemplate(OAuth2ClientContext oauth2ClientContext, ClientCredentialsResourceDetails details){
+        return new OAuth2RestTemplate(details, oauth2ClientContext);
+    }
 
     @Bean
     public EmbeddedServletContainerCustomizer proxyRedirectionFilter() {
@@ -48,7 +66,7 @@ public class MyConfiguration {
                     final MessageBytes serverNameMB = request.getCoyoteRequest().serverName();
                     Enumeration<String> headerNames = request.getHeaderNames();
                     logger.debug(headerNames);
-                    
+
                     String originalServerName = null;
                     final String forwardedHost = request.getHeader("x-forwarded-host");
                     if (forwardedHost != null) {
