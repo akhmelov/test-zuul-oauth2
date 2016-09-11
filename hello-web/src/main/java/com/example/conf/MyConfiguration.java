@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 
@@ -36,33 +37,12 @@ public class MyConfiguration {
 
     Logger logger = Logger.getLogger(MyConfiguration.class);
 
-
-    @Bean
-    public AuthoritiesExtractor authoritiesExtractor() {
-        return map -> {
-            final List<GrantedAuthority> list = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_GREATE");
-            return list;
-        };
-    }
-
-    @Bean
-    @ConfigurationProperties("spring.oauth2.client")
-    public ClientCredentialsResourceDetails oauth2ClientCredentialsResourceDetails() {
-        ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
-        return details;
-    }
-
-    @Bean
-    @ConfigurationProperties("spring.oauth2.client")
-    public AuthorizationCodeResourceDetails facebook() {
-        return new AuthorizationCodeResourceDetails();
-    }
-
 //    @Bean
-//    public CustomUserDetailsService getCustomUserDetailsService(
-//            @Value("${security.oauth2.resource.userInfoUri}") String userInfoEndpointUrl,
-//            @Value("${security.oauth2.client.clientId}") String clientId){
-//        return new CustomUserDetailsService(userInfoEndpointUrl, clientId);
+//    public AuthoritiesExtractor authoritiesExtractor() {
+//        return map -> {
+//            final List<GrantedAuthority> list = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER,ROLE_GREATE");
+//            return list;
+//        };
 //    }
 
     @Bean
@@ -75,8 +55,8 @@ public class MyConfiguration {
     }
 
     @Bean
-    public OAuth2RestTemplate getRestTemplate(OAuth2ClientContext oauth2ClientContext, ClientCredentialsResourceDetails details){
-        return new OAuth2RestTemplate(details, oauth2ClientContext);
+    public OAuth2RestTemplate getRestTemplate(OAuth2ProtectedResourceDetails resource, OAuth2ClientContext context){
+        return new OAuth2RestTemplate(resource, context);
     }
 
     @Bean
